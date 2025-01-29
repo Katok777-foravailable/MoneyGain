@@ -82,12 +82,6 @@ public final class MoneyGain extends JavaPlugin {
 
         getServer().getServicesManager().register(Economy.class, economyManager.economy, instance, ServicePriority.Normal); // регистрация экономики плагина в vault
 
-//        // загрузка пермишенов
-//        if(!permissionManager.load_successful()) {
-//            logger.severe("НЕ УДАЛОСЬ ЗАГРУЗИТЬ ПЕРМИШЕНЫ");
-//            getServer().getPluginManager().disablePlugin(this);
-//        }
-
         // регистрация плейсхолдеров
         new PlaceholderController("org.katok.moneyGain.Placeholder.Placeholders").register();
 
