@@ -1,24 +1,75 @@
 package org.katok.moneyGain.Commands;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static org.katok.moneyGain.MoneyGain.economyManager;
-import static org.katok.moneyGain.MoneyGain.message_cfg;
+import java.io.IOException;
+
+import static org.katok.moneyGain.MoneyGain.*;
 import static org.katok.moneyGain.utils.ConfigUtil.getString;
 
 public class money implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if(!(sender instanceof Player player)) {
-            sender.sendMessage(getString("console.cantwritefromconsole", message_cfg));
+//        if(!(sender instanceof Player player)) {
+//            sender.sendMessage(getString("console.cantwritefromconsole", message_cfg));
+//            return true;
+//        }
+        OfflinePlayer target_player = (OfflinePlayer) sender;
+
+        if(strings.length == 0) {
+            if(checkConsole(sender)) return true;
+            sender.sendMessage(String.valueOf(economyManager.economy.getBalance(target_player)));
+            return true;
+        }
+        if(strings.length == 1 || !strings[1].chars().allMatch(Character::isDigit)) {
+            sender.sendMessage(getString("economy.youmustwritevalue", message_cfg));
             return true;
         }
 
-        player.sendMessage(String.valueOf(economyManager.economy.getBalance(player)));
+        if(strings.length >= 3) {
+            target_player = instance.getServer().getOfflinePlayer(strings[2]);
+            if (!economyManager.economy.hasAccount(target_player)) {
+                sender.sendMessage(getString("other.playerdontexist", message_cfg));
+                return true;
+            }
+        }
+
+        if(strings.length < 3 && checkConsole(sender)) return true;
+
+        int count_of_money = Integer.parseInt(strings[1]);
+
+        switch(strings[0]) {
+            case("give"):
+                economyManager.economy.depositPlayer(target_player, count_of_money);
+                break;
+            case("take"):
+                economyManager.economy.withdrawPlayer(target_player, count_of_money);
+                break;
+            case("set"):
+                economy_cfg.set(target_player.getUniqueId().toString() + ".value", count_of_money);
+
+                try {
+                    economy_cfg.save(economy_file);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                break;
+        }
+
         return true;
+    }
+
+    public Boolean checkConsole(CommandSender sender) {
+        if(!(sender instanceof Player)) {
+            sender.sendMessage(getString("console.cantwritefromconsole", message_cfg));
+            return true;
+        }
+        return false;
     }
 }

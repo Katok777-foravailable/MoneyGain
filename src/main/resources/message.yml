@@ -1,2 +1,8 @@
 console:
-  cantwritefromconsole: "&#FF0000Эту комманду нельзя писать с консоли!"
+  cantwritefromconsole: "&#FF0000Эту команду нельзя писать с консоли!"
+
+economy:
+  youmustwritevalue: "&#FF0000Вы не написали количество денег с которыми надо произвести команду"
+
+other:
+  playerdontexist: "&#FF0000Игрок которого вы указали, не существует"
