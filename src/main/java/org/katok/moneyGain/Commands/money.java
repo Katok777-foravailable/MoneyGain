@@ -19,11 +19,11 @@ import static org.katok.moneyGain.utils.ConfigUtil.getString;
 public class money implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-//        if(!(sender instanceof Player player)) {
-//            sender.sendMessage(getString("console.cantwritefromconsole", message_cfg));
-//            return true;
-//        }
-        OfflinePlayer target_player = (OfflinePlayer) sender;
+        OfflinePlayer target_player = null;
+
+        if(sender instanceof Player) {
+            target_player = (OfflinePlayer) sender;
+        }
 
         if(strings.length == 0) {
             if(checkConsole(sender)) return true;

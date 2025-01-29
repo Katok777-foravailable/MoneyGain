@@ -1,10 +1,15 @@
 package org.katok.moneyGain.Placeholder;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.katok.moneyGain.Placeholder.Placeholders.money;
+import org.reflections.Reflections;
+import org.reflections.scanners.Scanner;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.function.Function;
@@ -15,8 +20,20 @@ public class PlaceholderController extends PlaceholderExpansion {
     protected HashMap<String, Function<OfflinePlayer, String>> placeholders = new HashMap<>();
 
     public PlaceholderController(String path) {
-        money money = new money();
-        placeholders.put(money.getString(), money::getValue);
+        Reflections reflections = new Reflections(path);
+
+        Set<Class<? extends PlaceholderExample>> allClasses = reflections.getSubTypesOf(PlaceholderExample.class);
+
+        for(Class<? extends PlaceholderExample> placeholderClass: allClasses) {
+            try {
+                PlaceholderExample placeholder = placeholderClass.newInstance();
+                placeholders.put(placeholder.getString().toLowerCase(), placeholder::getValue);
+            } catch (InstantiationException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override

@@ -12,6 +12,9 @@ commands:
   money:
     using: /money
 
+libraries:
+  - org.reflections:reflections:0.10.2
+
 depend:
   - Vault
   - PlaceholderAPI
