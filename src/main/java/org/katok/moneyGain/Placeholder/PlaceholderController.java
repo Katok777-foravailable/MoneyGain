@@ -3,7 +3,7 @@ package org.katok.moneyGain.Placeholder;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
-import org.reflections.Reflections;
+import org.katok.moneyGain.Placeholder.Placeholders.money;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -15,20 +15,8 @@ public class PlaceholderController extends PlaceholderExpansion {
     protected HashMap<String, Function<OfflinePlayer, String>> placeholders = new HashMap<>();
 
     public PlaceholderController(String path) {
-        Reflections reflections = new org.reflections.Reflections(path);
-
-        Set<Class<? extends PlaceholderExample>> allClasses = reflections.getSubTypesOf(PlaceholderExample.class);
-
-        for(Class<? extends PlaceholderExample> placeholderClass: allClasses) {
-            try {
-                PlaceholderExample placeholder = placeholderClass.newInstance();
-                placeholders.put(placeholder.getString().toLowerCase(), placeholder::getValue); // понимаю что говнокод, зато удобно
-            } catch (InstantiationException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        money money = new money();
+        placeholders.put(money.getString(), money::getValue);
     }
 
     @Override

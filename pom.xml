@@ -66,6 +66,10 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/releases/</url>
         </repository>
+        <repository>
+            <id>reflection</id>
+            <url>https://github.com/ronmamo/reflections</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -87,10 +91,6 @@
             <version>2.11.6</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.9.10</version>
-        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
     </dependencies>
 </project>

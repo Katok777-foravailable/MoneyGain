@@ -4,15 +4,19 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.katok.moneyGain.MoneyGain.*;
 import static org.katok.moneyGain.utils.ConfigUtil.getString;
 
-public class money implements CommandExecutor {
+public class money implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 //        if(!(sender instanceof Player player)) {
@@ -71,5 +75,17 @@ public class money implements CommandExecutor {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        List<String> list = new ArrayList<>();
+        if(strings.length == 1) {
+            list.add("give");
+            list.add("take");
+            list.add("set");
+            return list;
+        }
+        return List.of();
     }
 }
