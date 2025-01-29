@@ -97,7 +97,6 @@ public final class MoneyGain extends JavaPlugin {
                         if(permission.getPermission().startsWith("moneygain.multiplier.")) {
                             float multiplier = Float.parseFloat(permission.getPermission().substring("moneygain.multiplier.".length()));
 
-                            player.sendMessage(getInt("money_count") * multiplier + "");
                             economyManager.economy.depositPlayer(player, getInt("money_count") * multiplier);
                             break;
                         }
