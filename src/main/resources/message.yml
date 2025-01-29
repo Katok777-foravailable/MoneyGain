@@ -1,0 +1,2 @@
+console:
+  cantwritefromconsole: "&#FF0000Эту комманду нельзя писать с консоли!"

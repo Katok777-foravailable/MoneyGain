@@ -1,0 +1,17 @@
+name: MoneyGain
+version: '1.0-SNAPSHOT'
+main: org.katok.moneyGain.MoneyGain
+api-version: '1.20'
+author: Katok777
+
+permissions:
+  moneygain.multiplier:
+    default: false
+
+commands:
+  money:
+    using: /money
+
+depend:
+  - Vault
+  - PlaceholderAPI
